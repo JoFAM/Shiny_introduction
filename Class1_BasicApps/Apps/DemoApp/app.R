@@ -24,7 +24,7 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("boxPlot")
+           plotOutput("box_plot")
         )
     )
 )
@@ -32,7 +32,7 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$boxPlot <- renderPlot({
+    output$box_plot <- renderPlot({
         
         pdata <- data.frame(
             x = mtcars[[input$num_var]],
