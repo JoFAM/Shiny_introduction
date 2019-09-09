@@ -226,6 +226,78 @@ Input widgets : http://shiny.rstudio.com/gallery/widget-gallery.html
  1. Take a look at the demo App
  1. Click File $>$ New File $>$ Shiny Web App
  2. Create a single file app 
+ 
+## A first encounter with reactive values
+
+In the demo example, we create a dataset within the plot code.
+
+**Problem**
+
+ - too much operations slow down plot code
+ - not all objects need recalculation every time
+ 
+**Solution**: `reactive()` creates reactive value
+
+ - value that updates on changed input
+ - value that doesn't generate output for UI
+ 
+## Example {.columns-2}
+
+```{r}
+ selectInput("b1","distribution X", choices = c("norm","exp"))
+ selectInput("b2","distribution Y", choices = c("norm","exp"))
+```
+
+```{r}
+ x <- reactive({
+   f <- switch(input$b1, norm = rnorm, exp = rexp)
+   f(50)
+ })
+ y <- reactive({
+   f <- switch(input$b2, norm = rnorm, exp = rexp)
+   f(50)
+ })
+ renderPlot({plot(x(), y())} )
+```
+
+## Code for reactive values
+
+**UI**
+
+```{r, eval = FALSE, echo = TRUE}
+ selectInput("b1","distribution X", choices = c("norm","exp"))
+ selectInput("b2","distribution Y", choices = c("norm","exp"))
+```
+
+**Server**
+
+```{r, eval = FALSE, echo = TRUE}
+ x <- reactive({
+   f <- switch(input$b1, norm = rnorm, exp = rexp)
+   f(50)
+ })
+ y <- reactive({
+   f <- switch(input$b2, norm = rnorm, exp = rexp)
+   f(50)
+ })
+ renderPlot({plot(x(), y())} )
+```
+
+## Using `reactive()`
+
+ - Output is stored as reactive object (here `x` and `y`)
+ - reactive values are updated when input is updated
+ - reactive values are accessed as function! (`x()`)
+
+Linkage :
+
+ - `renderPlot()` depends on `x()` and `y()`
+ - `x()` depends on `input$b1`
+ - `y()` depends on `input$b2`
+ 
+### Try it yourself
+
+ - adapt the demo app so that the plot data is generated as reactive object
 
 ## Sources
 
