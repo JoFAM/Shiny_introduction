@@ -86,8 +86,9 @@ Fluid design is the standard in shiny. This means :
 
  - row based: a row is created using `fluidRow()`
      * They don't have a fixed height!
-     * They arrange elements flowing left to right
- - Rows are divided in columns
+     * Elements are placed on same line **if possible** (eg columns)!
+     * Elements like input/output widgets are often forced to stack vertically.
+ - Rows can be horizontally divided in columns using `column()`
      * there's 12 column units in a row
      * width of column in column units (1 - 12)
 
@@ -102,11 +103,15 @@ These are **panels** : can be nested in eachother
  - `a()`: a hyperlink
  - `h1()` to `h6()`: headers at different levels.
  
+110 tag functions are contained in `tags` (See `ExampleLayout2`)
+ 
 You can add attributes, eg:
 
 ```{r, echo=TRUE}
 a("HTML tag reference!", href = "https://www.w3schools.com/TAGs/")
 ```
+
+
 
 ## Add navigation to the app
 
@@ -120,6 +125,8 @@ Tabs have to be contained in :
  
 Keep in mind: `tabPanel()` is a container like `mainPanel()` etc.
 
+
+
 ## Control widget size :
 
 Width and height can be set in CSS units for every widget.
@@ -132,4 +139,14 @@ Width and height can be set in CSS units for every widget.
 To use relative heights : 
  - use a `fillPage`
  - use a `fillRow` or `fillCol` with fixed height
+ 
+**Widgets are contained in a specific class that forces them to stack vertically by default.**
+**To place them next to eachother, either use columns or `splitLayout()`.**
+ 
+## Extra sources
+
+ - Tab sets and fluid system : http://shiny.rstudio.com/articles/layout-guide.html
+ - shiny HTML tags : http://shiny.rstudio.com/articles/html-tags.html
+ - shiny HTML glossary : http://shiny.rstudio.com/articles/tag-glossary.html
+ - Tutorial video : https://vimeo.com/rstudioinc/review/131218530/212d8a5a7a/#t=1h52m52s
  
