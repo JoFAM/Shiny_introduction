@@ -63,3 +63,73 @@ runApp("path/to/appDir")
 Allows us to create a function to call the app!
 
 *See example `HistWithDens.R`*
+
+## Layout principles of apps
+
+Let's recap:
+
+ - **Page**: the main container of an app, contains panels.
+     * `fluidPage`
+     * `shinydashboard`
+ - **Panel** : a container containing other panels or widgets.
+     * `sidebarPanel`
+     * `mainPanel`
+ - **Widget**: a functional unit (input, output)
+     * `sliderInput`
+     * `plotOutput`
+
+This general principle goes for all different layout designs and possibilities.
+
+## Fluid layout using `fluidPage()`
+
+Fluid design is the standard in shiny. This means :
+
+ - row based: a row is created using `fluidRow()`
+     * They don't have a fixed height!
+     * They arrange elements flowing left to right
+ - Rows are divided in columns
+     * there's 12 column units in a row
+     * width of column in column units (1 - 12)
+
+These are **panels** : can be nested in eachother
+
+## Add HTML tags for formatting etc
+
+`Shiny` contains a set of HTML functions :
+
+ - `p()`: a paragraph with text
+ - `br()`: a break
+ - `a()`: a hyperlink
+ - `h1()` to `h6()`: headers at different levels.
+ 
+You can add attributes, eg:
+
+```{r, echo=TRUE}
+a("HTML tag reference!", href = "https://www.w3schools.com/TAGs/")
+```
+
+## Add navigation to the app
+
+You can separate widgets in tabs using `tabPanel()`
+
+Tabs have to be contained in :
+
+ - `tabSetPanel()` : gives clickable tabs
+ - `navlistPanel()` : gives navigation menu on the side
+ - `navbarPage()` : a **page** with navigation bar for tabs
+ 
+Keep in mind: `tabPanel()` is a container like `mainPanel()` etc.
+
+## Control widget size :
+
+Width and height can be set in CSS units for every widget.
+
+ - is a character value with a number plus suffix.
+ - suffices : `%`, `px`, `cm`, `mm`, `pt`, `in`, ...
+ - relative width works relative to the column (eg `100%` = full column width)
+ - relative height does NOT work! (height is determined by highest element.)
+ 
+To use relative heights : 
+ - use a `fillPage`
+ - use a `fillRow` or `fillCol` with fixed height
+ 
