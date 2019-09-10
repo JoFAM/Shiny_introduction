@@ -1,0 +1,65 @@
+---
+title: "Introduction to Shiny"
+author: "Joris Meys"
+date: "05/09/2019"
+runtime: shiny
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Layout styles
+
+## Recap on app structure
+
+We've seen different kinds of apps :
+
+ - **embedded in RMarkdown slides**
+    * Only widgets needed
+    * frontend/backend done for you
+ - **single file apps in a file `app.R`**
+    * Both UI and server in a single file
+    * must return app object using `shinyApp()`
+ - **two file apps: `ui.R` and `server.R`**
+    * Must be in its own folder
+    * `ui.R` returns a UI page object
+    * `server.R` returns a function 
+
+## Running an app.
+
+Simplest way: clicking on a button in RStudio
+
+More complex :
+
+ - create `UI` and `server` objects
+ - combine in a app object with `shinyApp()`
+ - use `runApp()` to use the app.
+ 
+```{r, eval = FALSE, echo = TRUE}
+UIobj <- fluidPage( ... )
+serverfun <- function(input, output){ ... }
+
+theApp <- shinyApp(UIobj, serverfun)
+runApp(theApp)
+```
+
+## Running an app.
+
+Other ways to use `runApp()` :
+
+ - using a list with a UI and server object:
+```{r, eval = FALSE, echo = TRUE}
+runApp(list(UI,serverfun))
+```
+ - Passing the directory where the files are located:
+```{r, eval = FALSE, echo = TRUE}
+runApp("path/to/appDir")
+```
+
+Allows us to create a function to call the app!
+
+*See example `HistWithDens.R`*
