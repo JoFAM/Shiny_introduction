@@ -20,4 +20,18 @@ shinyServer(function(input, output) {
         ggplot(iris , aes(x = !!symx, y = !!symy)) +
             geom_point() + geom_smooth(method = "lm")
     })
+    
+    output$thesummary <- renderPrint({
+        
+        # This is one way to do it. It shows how you can 
+        # create a formula based on a character value
+        theformula <- as.formula(
+            paste(input$yvar, input$xvar, sep = "~")
+        )
+        reg <- lm(theformula, data = iris)
+        summary(reg)
+        
+        # Also possible:
+        # reg <- lm(iris[[input$yvar]] ~ iris[[input$xvar]])
+    })
 })

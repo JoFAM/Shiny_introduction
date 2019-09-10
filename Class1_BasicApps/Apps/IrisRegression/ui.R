@@ -20,7 +20,8 @@ fluidPage(
 
         # Show my regression
         mainPanel(
-            plotOutput("regPlot")
+            plotOutput("regPlot"),
+            verbatimTextOutput("thesummary")
         )
     )
 )
