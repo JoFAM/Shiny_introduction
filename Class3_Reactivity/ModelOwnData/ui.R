@@ -21,6 +21,9 @@ histx <- tabPanel("Summary X variable",
 histy <- tabPanel("Summary Y variable",
                   plotOutput("histy"),
                   tableOutput("tabley"))
+modpanel <- tabPanel("Model",
+                     plotOutput("modplot"),
+                     tableOutput("modtable"))
 
 # Define UI for application that draws a histogram
 fluidPage(
@@ -35,7 +38,8 @@ fluidPage(
             tabsetPanel(
                 datatab,
                 histx,
-                histy
+                histy,
+                modpanel
             )
         )
     )

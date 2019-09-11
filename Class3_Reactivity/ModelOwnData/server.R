@@ -1,6 +1,9 @@
 # Exercise App class 3
 
 library(shiny)
+library(broom)
+library(tibble)
+library(ggplot2)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -26,19 +29,26 @@ shinyServer(function(input, output) {
             selectInput("varx","Select the X variable",
                         choices = thevars),
             selectInput("vary","Select a Y variable",
-                        choices = thevars)
+                        choices = thevars),
+            actionButton("buildModel","Build model")
         )
     })
     
     # reactive expr for x and y
     xdata <- reactive({
         req(input$varx)
-        thedata()[[input$varx]]
+        out <- thedata()[[input$varx]]
+        validate(need(is.numeric(out),
+                      "Please choose a numeric variable"))
+        out
     })
     
     ydata <- reactive({
         req(input$vary)
-        thedata()[[input$vary]]
+        out <- thedata()[[input$vary]]
+        validate(need(is.numeric(out),
+                      "Please choose a numeric variable"))
+        out
     })
     
     # Create the histograms and summaries
@@ -54,6 +64,34 @@ shinyServer(function(input, output) {
     })
     output$tabley <- renderTable({
         broom::tidy(summary(ydata()))
+    })
+    
+    # Create the models
+    
+    pdata <- eventReactive(input$buildModel,{
+        pdata <- tibble(x=xdata(),y=ydata())
+    })
+    
+    output$modplot <- renderPlot({
+        xname <- isolate(input$varx)
+        yname <- isolate(input$vary)
+        ggplot(pdata(), aes(x,y)) +
+            geom_point() +
+            geom_smooth(method = "lm") +
+            labs(x = xname, y=yname)
+            
+    })
+    
+    themodel <- eventReactive(input$buildModel,{
+        
+        req(xdata(),ydata())
+        
+        formula <- paste(input$vary,input$varx,sep = "~")
+        lm(formula, thedata())
+    })
+    
+    output$modtable <- renderTable({
+        broom::tidy(summary(themodel()))
     })
 
 })
