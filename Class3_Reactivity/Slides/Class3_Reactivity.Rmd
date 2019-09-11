@@ -190,7 +190,7 @@ renderData({
  
 ```{r, echo = TRUE, eval = FALSE}
 thedata <- eventReactive(input$Go,{
-  data <- iris[[sel]]
+  iris[input$xvar]
 })
 renderDataTable({thedata()})
 ``` 
@@ -232,6 +232,119 @@ Add a download button that returns a CSV file with :
  - a column called `predict` with predictions.
  
 Add a download button that lets the user download the plot of the model.
+
+## Types of reactivity
+
+```{r, out.width='70%', fig.align='center'}
+knitr::include_graphics('roles.png')
+```
+
+ - **reactive source**: any input or reactive values
+ - **reactive expression**: depends on source, returns reactive value (eg `reactive()`)
+ - **reactive endpoint**: depends on source, does not return a value (all output
+ and `observeEvent`)
+ 
+## Reactive values
+
+Useful in case you need to keep track of a "state", eg :
+
+ - number of times something is executed
+ - a dataset that can be changed in different ways by multiple inputs.
+ 
+Two possibilities :
+
+ - `reactiveVal`: creates a reactive value that can be changed
+ - `reactiveValues`: creates a list with reactive values.
+
+**Keep in mind**
+
+ - These are created and used on the server side!
+ - They are not dependent on other reactive values
+ 
+## Using `reactiveVal`
+
+**Creation**
+
+```{r, echo = TRUE, eval = FALSE}
+count <- reactiveVal(value = 0)
+```
+
+The value is the initial value for the reactive value.
+
+**Use**
+```{r, echo = TRUE, eval=FALSE}
+newval <- count() + 1
+count(newval)
+```
+
+ - the value is accessed like a function like a reactive expression
+ - the value is changed by passing the new value as an argument
+ 
+## Using a list of reactive values
+
+**Creation**
+
+```{r, echo = TRUE, eval = FALSE}
+count <- reactiveValues(a = 1, b = "a")
+```
+
+The argument name is the name of the element, the value of the argument is
+the value for that element
+
+**Use**
+```{r, echo = TRUE, eval=FALSE}
+values$a <- values$a + 3
+values[["b"]] <- "Another value"
+```
+
+ - the values are accessed like normal lists elements
+ - the value are changed in the normal way
+ 
+## Observe events
+
+The function `observeEvent()` creates an endpoint dependent on an action:
+
+ - a reactive value that changed (input or reactive expression)
+ - a set of reactive values between curly braces
+ 
+**Example** :
+
+```{r, echo=TRUE, eval=FALSE}
+observeEvent({input$Go},{
+    showModal(modalDialog(
+      title = "Important message",
+      "The model is running! Be patient.",
+      easyClose = TRUE
+    ))
+  })
+```
+ 
+## Observe conditional events
+
+With `observeEvent()`: add the condition in the code block
+
+```{r, echo=TRUE, eval=FALSE}
+observeEvent({input$Go},{
+  if(is.numeric(iris[[input$var1]]))
+    showModal(modalDialog(
+      title = "Important message",
+      "The chosen variable is numeric.",
+      easyClose = TRUE
+    ))
+})
+```
+
+For the UI side: take a look at `conditionalPanel`.
+
+## Exercise
+
+Add a reactive value that keeps track of how often the 
+current model graph is downloaded.
+
+If the graph is downloaded more than once, display a modal dialog saying
+that you downloaded the graph already.
+
+Don't forget to reset the counter when a new model is created!
 
 ## Extra sources
 
