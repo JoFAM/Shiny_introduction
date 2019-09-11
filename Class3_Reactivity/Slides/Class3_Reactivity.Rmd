@@ -14,15 +14,235 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Controlling reactivity
 
-## Recap on reactivity
+## Exercise
 
-think pigeon
+Reactivity will be demonstrated by an exercise.
 
+During this class, we'll develop an app that :
+
+ - lets the user upload a file & shows the data
+ - lets the user select a X and Y variable
+ - shows the distribution of both X and Y
+ - fits a linear model Y ~ X and shows the results
+ - lets the user download the predictions for Y
+ 
+## Working with files
+
+```{r, echo = TRUE}
+fileInput("afile","Select a file",
+          accept = "text/csv")
+```
+
+```{r, echo = TRUE}
+renderPrint({
+  str(input$afile)
+})
+```
+
+## Uploading files
+
+Use `filInput()`.
+
+```{r, eval = FALSE, echo = TRUE}
+fileInput("afile","Select a file",
+          accept = "text/csv")
+```
+
+This returns a data frame with following info:
+
+ - **name**: The original name of the file
+ - **size**: The size of the file
+ - **type**: The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the file **if** the browser could figure it out.
+ - **datapath**: the actual location of the temporary file on the server. 
+ 
+
+## Uploading files
+
+To use the file, you need to use the `datapath` value!
+
+```{r, echo = TRUE, eval=FALSE}
+output$tbl <- renderDataTable({
+  read.csv(input$afile$datapath)
+})
+```
+
+**Sidenote**
+
+The function `renderDataTable` from `shiny` can be extended using the `DT` package. The function `renderDT()` allows for
+editable tables where observations can be selected.
+
+
+
+
+## Exercise
+
+Start by:
+
+ - create a 2-file shiny app
+ - setting up a page with a sidebar
+ - add an upload widget for a file (make the data a reactive value)
+ - add a tab with the data table of the uploaded data
+ 
+## Controlling reactivity : only run with input
+
+Problem: When there's no data file uploaded, the data table can't be displayed. 
+
+Solution: `req()` (short for require)
+
+ - tells the observer/reactive expression to only run for `truthy` values.
+ - prevents error messages due to missing input
+ 
+A `truthy` value is :
+
+ - a loose, intuitive concept of `TRUE`
+ - anything that's not `NULL`, `FALSE`, `""`, `NA`, ...
+ - an inclicked `actionButton()`
+ 
+** The value `0` is truthy, even though `isTRUE(0)` is `FALSE`.
+
+## Create a dynamic UI
+
+```{r, echo = TRUE}
+sliderInput("max","Select maximum", min = 5, max=10,
+            value = 5)
+uiOutput("ui")
+```
+
+```{r, echo = TRUE}
+output$ui <- renderUI({
+  tagList(
+    sliderInput("val","Select value",min = 1, 
+                max = input$max, value = 1 )
+  )
+})
+```
+
+## Create a dynamic UI : Basics
+
+The function `renderUI`:
+
+ - should return a `tagList` with UI elements (input or output)
+ - Is rendered on the UI side using `uiOutput()`.
+ - Argument `outputArgs` allows to pass extra arguments to 
+ `uiOutput()` if necessary.
+ 
+If output of `renderUI` is `NULL`, `uiOutput` doesn't show anything.
+
+## Exercise
+
+Add the following to the app:
+
+ - A UI with 2 `selectInput`s that let you select a X and a Y variable
+ - Add two tabs with a histogram and summary values for
+ the variables X and Y
+ 
+## Checking the input with validate
+
+Problem: If you select a factor variable, the histogram won't calculate and an error is shown
+
+Solution: only run the code if the input is numeric with `validate()` and `need()`
+
+ - `validate` takes one or more conditions to test.
+ - conditions are evaluated with `need`
+ - `need` allows for specific error message
+ 
+```{r, echo = TRUE, eval = FALSE}
+renderTable({
+  validate(need(is.numeric(iris[[input$var1]]),
+                "Please select a numeric variable."),
+           need(is.factor(iris[[input$var2]]),
+                "Var 2 needs to be a factor."))
+})
+```
+ 
+## Controlling reactivity : action buttons
+
+Problem : the model runs each time one of the variables is
+changed. This is a waste of resources.
+
+Solution: Control actions using an `actionButton()`.
+
+```{r, echo = TRUE}
+actionButton("Go","Click me!")
+```
+
+gives:
+
+```{r, echo = TRUE}
+renderText({paste("Button is clicked",input$Go,"times")})
+```
+
+## Controlling reactivity : Isolation
+
+You want the expressive reaction to only run when the button is clicked. This means removing all other dependencies.
+
+ - using `isolate()`: removes dependency from an input
+
+```{r, echo = TRUE, eval = FALSE}
+renderData({
+  input$Go  # The button, but output is not used
+  sel <- isolate(input$var) # The actual input, dependency removed
+  data <- iris[[sel]]
+})
+```
+
+ - using `eventReactive`: removes all dependencies except the reactive event
+ 
+```{r, echo = TRUE, eval = FALSE}
+thedata <- eventReactive(input$Go,{
+  data <- iris[[sel]]
+})
+renderDataTable({thedata()})
+``` 
+
+## Exercise
+
+ - Add the necessary controls so the histograms and the model are only built when both X and Y are numeric.
+ - An extra tab `Model` that shows a graph of the model and 
+ the model output (use either `verbatimTextOutput` or try the
+ `broom` package for tidy output.)
+ - Add an `actionButton` to the app in such a way that the model is only calculated when the action button is clicked.
+
+
+## Downloading files
+
+This can be done with the `downloadButton()` and `downloadHandler()` functions:
+
+**UI**
+```{r, echo = TRUE, eval = FALSE}
+downloadButton("GetData","Download")
+```
+
+**server**
+```{r, echo = TRUE, eval = FALSE}
+output$GetData <- downloadHandler(
+  filename = "example.csv",
+  content = function(file){
+    write.csv(iris, file, row.names = FALSE)
+  }
+)
+```
+
+## Exercise
+
+Add a download button that returns a CSV file with :
+
+ - the X variable with its original name
+ - the Y variable with its original name
+ - a column called `predict` with predictions.
+ 
+Add a download button that lets the user download the plot of the model.
 
 ## Extra sources
 
  - Reactivity in full : http://shiny.rstudio.com/articles/reactivity-overview.html
  - use of isolate : http://shiny.rstudio.com/articles/isolation.html
  - scheduling of execution : http://shiny.rstudio.com/articles/execution-scheduling.html
+ - Dynamic UI : https://shiny.rstudio.com/articles/dynamic-ui.html
  - Action buttons : http://shiny.rstudio.com/articles/action-buttons.html
+ 
+ - Upload data: https://shiny.rstudio.com/articles/upload.html
+ - Download data: https://shiny.rstudio.com/articles/download.html
+ 
+ - DT package : https://rstudio.github.io/DT/shiny.html
  
