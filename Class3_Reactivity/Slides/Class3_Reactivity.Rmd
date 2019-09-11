@@ -1,0 +1,28 @@
+---
+title: "Introduction to Shiny"
+author: "Joris Meys"
+date: "05/09/2019"
+runtime: shiny
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Controlling reactivity
+
+## Recap on reactivity
+
+think pigeon
+
+
+## Extra sources
+
+ - Reactivity in full : http://shiny.rstudio.com/articles/reactivity-overview.html
+ - use of isolate : http://shiny.rstudio.com/articles/isolation.html
+ - scheduling of execution : http://shiny.rstudio.com/articles/execution-scheduling.html
+ - Action buttons : http://shiny.rstudio.com/articles/action-buttons.html
+ 
