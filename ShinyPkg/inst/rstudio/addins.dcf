@@ -1,0 +1,4 @@
+Name: Example
+Description: This is an example
+Binding: runexample
+Interactive: true

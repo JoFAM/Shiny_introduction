@@ -23,7 +23,7 @@ makePlot <- function(data, var1, var2){
                    )),
       miniTabPanel("Plot", icon = icon("area-chart"),
         miniContentPanel(
-          plotOutput("theplot")
+          plotOutput("theplot", height = "100%")
         ))
     )
   )
