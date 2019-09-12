@@ -41,7 +41,7 @@ renderPrint({
 
 ## Uploading files
 
-Use `filInput()`.
+Use `fileInput()`.
 
 ```{r, eval = FALSE, echo = TRUE}
 fileInput("afile","Select a file",
@@ -285,7 +285,7 @@ count(newval)
 **Creation**
 
 ```{r, echo = TRUE, eval = FALSE}
-count <- reactiveValues(a = 1, b = "a")
+values <- reactiveValues(a = 1, b = "a")
 ```
 
 The argument name is the name of the element, the value of the argument is
