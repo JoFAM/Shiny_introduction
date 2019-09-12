@@ -30,7 +30,8 @@ shinyServer(function(input, output) {
                         choices = thevars),
             selectInput("vary","Select a Y variable",
                         choices = thevars),
-            actionButton("buildModel","Build model")
+            actionButton("buildModel","Build model"),
+            downloadButton("pred","Download predictions")
         )
     })
     
@@ -93,5 +94,16 @@ shinyServer(function(input, output) {
     output$modtable <- renderTable({
         broom::tidy(summary(themodel()))
     })
+    
+    output$pred <- downloadHandler(
+        filename = "predictions.csv",
+        content = function(file){
+            tmp <- thedata()[c(input$varx, input$vary)]
+            pred <- predict(themodel())
+            tmp <- cbind(tmp, predict = pred)
+            write.csv(tmp, file = file,
+                      row.names = FALSE)
+        }
+    )
 
 })
