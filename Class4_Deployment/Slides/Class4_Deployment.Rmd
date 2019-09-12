@@ -150,12 +150,34 @@ minTabstripPanel(
   )
 ```
 
-## Share online
+## Share online with Github
 
  - Using Github gists:
      * Easy and "anonymous" sharing.
      * needs `ui.R` and `server.R` files in gist
      * run with `shiny::runGist('xxxxxxx')` where `xxxxxxx` is the gist ID number (you see that in the link)
+     
+```{r, echo = TRUE, eval=FALSE}
+runGist("b283edcad3dd3ae9ffecd076eb87bbe7")
+```
+
+The gist: https://gist.github.com/JoFAM/b283edcad3dd3ae9ffecd076eb87bbe7
+
+## Creating a gist
+
+Gists are created on github by specifying the filename and copy-pasting
+
+ - go to https://gist.github.com
+ - if you don't have a github account, sign up
+ - Log in and click on the + symbol top right next to your profile pic
+ - add filename (eg app.R) and copy-paste the code 
+ - for a 2-file app: use ui.R as filename. Click on "Add file" to add the
+ server.R in the same gist!
+ - click "Create public gist"
+ - Profit
+
+## Share online with Github
+
  - Using Github repos:
      * Full github repo version control
      * Apps can be run from a subdirectory
@@ -166,6 +188,11 @@ runGitHub("Shiny_introduction",
           "JoFAM",
           subdir = "Class1_BasicApps/Apps/BasicPlot/")
 ```
+
+Github itself is a often used version control system for software projects.I love
+it. If you want to try it out, find more info:
+
+https://help.github.com/en
 
 ## Share in a package
 
@@ -196,6 +223,122 @@ Description: This app does stuff
 Binding: appFun
 Interactive: true
 ```
+
+## Workflow to create a simple package
+
+RStudio allows you to create a package relatively easy, if you're prepared to
+skip over most of the details. More info in [R Packages](http://r-pkgs.had.co.nz/)
+by Hadley Wickham.
+
+ - go to File $>$ New Project $>$ New Directory $>$ R package
+ 
+```{r, out.width='50%', fig.align='center'}
+knitr::include_graphics('PkgDialog.png')
+```
+
+## Workflow to create a simple package
+
+In this dialog : 
+
+ - fill in the package name (one word)
+ - Choose the directory where the package structure is placed
+ - click on "Create Project"
+ 
+RStudio will create a package skeleton with :
+
+ - a file `DESCRIPTION`
+ - a file `NAMESPACE` which you can leave untouched.
+ - a folder `R` with a file `hello.R`. This file can be removed. The `R` folder
+ is where your R scripts with function definitions go
+ - a folder `man` with a file `hello.Rd`. Can be removed as well. This folder 
+ contains the help pages (see also [`roxygen2`](http://r-pkgs.had.co.nz/man.html))
+
+## Workflow to create a simple package
+
+### Adapt the file DESCRIPTION:
+
+Open it up and change the following fields:
+
+ - `Package: pkgname` : `pkgname` is the name of the package
+ - `Author: firstname lastname <my.email@serv.org>` : your details
+ - `Maintainer` : same as Author
+ - `Description: ...` : add a small description
+ - `License: GPL>2` : use a standard license (check if you need other licenses)
+ 
+Add a field:
+
+ - `Imports: shiny, ggplot2` : list all packages used by the code in the package
+ 
+## Workflow to create a simple package
+
+### Add the shiny app
+
+ - create a folder `inst` in the package folder.
+ - In there, create a folder `appname` that contains the `app.R` or the `ui.R` and `server.R`
+ of the shiny app.
+ - in the `R` folder, create a R script (eg `runapp.R`) with the following structure:
+ 
+```{r, echo = TRUE, eval = FALSE}
+runapp <- function(){
+  shiny::runApp(
+    system.file("appname",
+                package = "pkgname")
+  )
+}
+```
+
+`system.file` returns the location of the folder `appname` in the installed package.
+
+## Workflow to create a simple package
+
+To test your package, you click on the tab `Build` and click on `Install and Restart`
+
+```{r, out.width='50%', fig.align='center'}
+knitr::include_graphics('instRestart.png')
+```
+
+This makes a temporary build of the package and loads it. Now you can test your
+function `runapp()`.
+
+**The first time this might install Rtools if you didn't have it yet**
+
+## Workflow to create a simple package
+
+### Add the app as an addin in RStudio
+
+ - create a folder `rstudio` in the folder `inst`.
+ - click on File $>$ New File $>$ Text File
+ - Add the dcf directives (see below)
+ - save as `addins.dcf` in the folder `inst/rstudio` in the package.
+ 
+```
+Name: The app
+Description: This app does stuff
+Binding: runapp
+Interactive: true
+```
+
+You can Install and Restart to check whether the app is added to the Addins.
+
+## Workflow to create a simple package 
+
+### Build the package
+
+ - click in the Build tab on "More"
+ - `Build Binary Package` Builds a Windows package
+ - `Build Source Package` Builds a Linux/Mac package
+ 
+They can be installed as:
+
+```{r, eval = FALSE, echo =TRUE}
+install.packages(
+  "path/to/pkgname_0.1.0.zip",
+  repos = NULL,
+  type = "binary"
+)
+```
+
+**Note:** for Linux you need a `.tar.gz` file and set `type="source"`
 
 
 ## Extra sources

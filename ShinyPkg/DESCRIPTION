@@ -4,9 +4,9 @@ Title: This shows how to add a shiny app
 Version: 0.1.0
 Author: Joris Meys <Joris.Meys@UGent.be>
 Maintainer: Joris Meys <Joris.Meys@UGent.be>
-Description: More about what it does (maybe more than one line)
+Description: This explains a bit more the goal of the package.
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL>2
 Encoding: UTF-8
 LazyData: true
 Imports: shiny, ggplot2
