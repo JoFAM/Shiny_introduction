@@ -1,0 +1,212 @@
+---
+title: "Introduction to Shiny"
+author: "Joris Meys"
+date: "12/09/2019"
+runtime: shiny
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(miniUI)
+```
+
+# Sharing your applications
+
+## Different goals require different solutions.
+
+**Passing scripts**:
+
+ - Helps R users
+ - Users can change the code: flexible but unstable
+ 
+**Integrating in RStudio with package**:
+
+ - Helps R users
+ - code is protected from unwanted changes
+ - can be rolled out 
+ 
+**Hosting on a web service**:
+
+ - Also non-R users can use the app
+ - Needs server deployment and admin
+ - code is inaccessible/hidden
+
+## Web services to host
+
+Two main possibilities:
+
+|        | Shiny Server (open) | ShinyProxy    |
+| :----- | :----------------- | :----------   |
+| From   | RStudio            | OpenAnalytics |
+| App | Directory on server | Docker containers |
+| Setup        | less complex   | more complex      |
+| Users per app | All in same session | one session per user | 
+| scalability  | Buy Pro        | in theory infinitely scaleable |
+
+## Provide a GUI for complex functions
+
+Until now: shiny apps as an independent unit: no return value
+
+**Gadgets** :
+
+ - Have a simple interface
+ - Return a value when done
+ - Are defined in a regular function
+ - Can be used in a package or as RStudio addin
+ 
+To build a gadget: need package `miniUI`
+
+## Example of a gadget
+
+```{r, echo = TRUE}
+pickAcolor <- function(){
+  
+  ui <- miniPage(
+    gadgetTitleBar("Select a color"),
+    miniContentPanel(
+      selectInput("col", "Pick a color",
+                  choices = c("red","green","blue"))
+    ))
+  
+  server <- function(input, output, session){
+    observeEvent(input$done, {
+      returnValue <- input$col
+      stopApp(returnValue)
+    })
+  }
+  runGadget(ui,server)
+}
+```
+
+## Example of a gadget
+
+ - Define `ui` and `server` using `miniUI`
+ - Gadget always contains a `Cancel` and `Done` button.
+ - use `observeEvent()` for detecting click on `Done`.
+ - use `stopApp(val)` to return the value `val`
+ - Last line in function : `runGadget`
+ 
+To keep in mind :
+
+ - `miniContentPanel()` is the default container to use.
+ - Gadgets fill the window: use `fillRow` and `fillCol`, not `fluidRow` and `column`!
+ - tabsets are handled by `miniUI` :
+     * `miniTabstripPanel` for the container
+     * `miniTabPanel` for the tabs itself
+     
+## Decorating Mini tabbed layout
+
+Main use is the same as `tabPanel` and containers. 
+
+ - `miniTabPanel` allows for icons using `icon` argument.
+ - icons come from [FontAwesome](https://fontawesome.com/icons?d=gallery&m=free) and [Glyphicons](https://www.glyphicons.com/sets/basic/) iconset
+ - Use function `icon()` to define them
+ 
+```{r, echo = TRUE, eval = FALSE}
+icon(name = "human", lib="glyphicon")
+```
+ 
+## Filled layouts
+
+Gadgets use a flex box: tries to fill the entire page.
+
+ - when using `plotOutput()`, set relative height
+
+```{r, echo = TRUE, eval = FALSE}
+miniContentPanel(
+  plotOutput("theplot", height = "50%"),
+  plotOutput("AnotherPlot", height = "50%")
+)
+```
+
+ - To fit buttons/inputs on a row: `miniButtonBlock()`
+ 
+```{r, echo = TRUE, eval = FALSE}
+miniButtonBlock(
+  actionButton("reset", "Reset"),
+  actionButton("build", "build Model")
+)
+```
+
+## Filled layouts
+
+To use a button block in between the tabstrip and the tabs:
+
+ - create a `miniButtonBlock()` object
+ - pass to argument `between` of `miniTabstripPanel()`
+ 
+```{r, echo = TRUE, eval = FALSE}
+theButton <- miniButtonBlock(actionButton("reset","Reset"))
+...
+minTabstripPanel(
+  between = theButton,
+  miniTabPanel("Data", icon = icon("table"),
+    ...
+    ),
+  miniTabPanel( ... )
+  )
+```
+
+## Share online
+
+ - Using Github gists:
+     * Easy and "anonymous" sharing.
+     * needs `ui.R` and `server.R` files in gist
+     * run with `shiny::runGist('xxxxxxx')` where `xxxxxxx` is the gist ID number (you see that in the link)
+ - Using Github repos:
+     * Full github repo version control
+     * Apps can be run from a subdirectory
+     * run with `shiny::runGitHub()`
+
+```{r, echo = TRUE, eval = FALSE}
+runGitHub("Shiny_introduction",
+          "JoFAM",
+          subdir = "Class1_BasicApps/Apps/BasicPlot/")
+```
+
+## Share in a package
+
+How to write a package : see eg R Packages by H.Wickham
+
+For a shiny app:
+
+ - place app in `inst/appdir`.
+ - create (and export) a function that contains:
+```{r, echo=TRUE,eval=FALSE}
+shiny::runApp(system.file('appdir'),
+              package = 'namePackage')
+```
+ - Make sure you declare dependency on Shiny!
+ - App is started by calling the function.
+
+## Add Gadgets/Shiny apps to RStudio
+
+This has to be done using a package.
+
+ - add Gadget function (or app function) to the package.
+ - Register the app function in a `.dcf` file. (see example)
+ - store `.dcf` file as `inst/rstudio/addins.dcf`
+ 
+```
+Name: The app
+Description: This app does stuff
+Binding: appFun
+Interactive: true
+```
+
+
+## Extra sources
+
+ - Shiny gadgets : http://shiny.rstudio.com/articles/gadgets.html
+ - Gadget UI :http://shiny.rstudio.com/articles/gadget-ui.html
+ - RStudio addins : http://rstudio.github.io/rstudioaddins/
+ - Packages : http://r-pkgs.had.co.nz/
+ - Local deployment : http://shiny.rstudio.com/articles/deployment-local.html
+
+### Online deployment
+
+ - ShinyProxy : https://www.shinyproxy.io/
+ - ShinyServer setup reference : https://docs.rstudio.com/shiny-server/
