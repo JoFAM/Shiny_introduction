@@ -41,6 +41,7 @@ shinyServer(function(input, output) {
         out <- thedata()[[input$varx]]
         validate(need(is.numeric(out),
                       "Please choose a numeric variable"))
+        print(out)
         out
     })
     
@@ -73,7 +74,7 @@ shinyServer(function(input, output) {
         pdata <- tibble(x=xdata(),y=ydata())
     })
     
-    output$modplot <- renderPlot({
+    theplot <- reactive({
         xname <- isolate(input$varx)
         yname <- isolate(input$vary)
         ggplot(pdata(), aes(x,y)) +
@@ -81,6 +82,10 @@ shinyServer(function(input, output) {
             geom_smooth(method = "lm") +
             labs(x = xname, y=yname)
             
+    })
+    
+    output$modplot <- renderPlot({
+        print(theplot())
     })
     
     themodel <- eventReactive(input$buildModel,{
@@ -96,13 +101,23 @@ shinyServer(function(input, output) {
     })
     
     output$pred <- downloadHandler(
-        filename = "predictions.csv",
+        filename = function(){
+            paste0(input$varx,"-",input$vary,".csv")
+        },
         content = function(file){
             tmp <- thedata()[c(input$varx, input$vary)]
             pred <- predict(themodel())
             tmp <- cbind(tmp, predict = pred)
             write.csv(tmp, file = file,
                       row.names = FALSE)
+        }
+    )
+    
+    output$downplot <- downloadHandler(
+        filename = "theplot.png",
+        content = function(file){
+            ggsave(filename = file,
+                   plot = theplot())
         }
     )
 

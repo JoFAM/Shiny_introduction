@@ -23,7 +23,8 @@ histy <- tabPanel("Summary Y variable",
                   tableOutput("tabley"))
 modpanel <- tabPanel("Model",
                      plotOutput("modplot"),
-                     tableOutput("modtable"))
+                     tableOutput("modtable"),
+                     downloadButton("downplot","Download plot"))
 
 # Define UI for application that draws a histogram
 fluidPage(
