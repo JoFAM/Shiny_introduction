@@ -150,7 +150,8 @@ both beaver datasets. Use the module you created.
 
 ## Extra sources
 
- - Modules: 
+ - Modules: http://shiny.rstudio.com/articles/modules.html
+ - Modules2: http://shiny.rstudio.com/articles/communicate-bet-modules.html
  - reactlog: https://rstudio.github.io/reactlog/articles/reactlog.html
  - profvis: https://rstudio.github.io/profvis/
  - Debugging: http://shiny.rstudio.com/articles/debugging.html
