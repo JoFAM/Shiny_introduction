@@ -94,6 +94,7 @@ To re-use code in a shiny app: create a module.
 
  - function taking `id` as first input (and possibly others)
  - it returns a `tagList` with UI elements (similar to `renderUI`)
+ - it needs the namespace function (`ns <- NS(id)`)
  
 ### server side
 
@@ -102,8 +103,50 @@ To re-use code in a shiny app: create a module.
  
 ## Calling the module
 
+### UI side
 
+ - simply use the ui function.
+ - id you pass is the tag used to connect to the server side
 
+```{r, eval=FALSE, echo=TRUE}
+clickUI("tag", ...)
+```
+
+### server side
+
+ - use `callModule` to call the function
+ - return value is a reactive expression: catch it if needed
+ 
+```{r, eval=FALSE, echo=TRUE}
+dice1 <- callModule(clickServer, "tag")
+```
+
+**Remember to use `dice1` as a reactive, i.e. `dice1()` to access the value**
+
+## Passing values to the server
+
+The server side of a module can take extra arguments as well:
+
+ - normal arguments just like an R function
+ - reactive expressions: pass the object (no parentheses)
+ 
+Rendering a UI at the server side requires the namespace function:
+
+ - this is contained in the `session` object
+ - extract using `ns <- session$ns`
+ - Don't forget to use `ns(...)` in the rendered UI!
+
+## The end
+
+### Any questions?
+
+Ask me anything.
+
+### Exercise
+
+Create a module for the beaver app that creates the ggplot and the slider.
+Adapt the beaver app so you have a tab with the plot and range slider for
+both beaver datasets. Use the module you created.
 
 ## Extra sources
 

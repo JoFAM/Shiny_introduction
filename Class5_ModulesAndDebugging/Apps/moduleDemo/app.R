@@ -1,4 +1,5 @@
 # USE the clickmodule
+# Keep in mind the app is run from within the app directory!
 source("clickModule.R")
 
 
