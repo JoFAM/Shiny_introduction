@@ -2,7 +2,7 @@
 
 ## UI side
 
-rangeplotUI <- function(id, label = "Pick a range for the X axis"){
+rangeplotUI <- function(id){
   ns <- NS(id)
   tagList(
     plotOutput(ns("timeplot")),
@@ -14,14 +14,15 @@ rangeplotUI <- function(id, label = "Pick a range for the X axis"){
 
 ## SERVER side
 
-rangeplot <- function(input, output, session, dataset, cols){
+rangeplot <- function(input, output, session, dataset, cols,
+                      label = "Pick a range for the X axis"){
   
   ns <- session$ns
   
   output$slider <- renderUI({
     minmax <- range(dataset$tindex)
     tagList(
-    sliderInput(ns("range"), "Select the X range", 
+    sliderInput(ns("range"), label, 
                 min = minmax[1],
                 max = minmax[2],
                 value = minmax)

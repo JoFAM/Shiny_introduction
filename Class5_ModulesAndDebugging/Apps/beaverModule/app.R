@@ -52,7 +52,8 @@ server <- function(input, output) {
         c(input$colinactive, input$colactive)
     })
     
-    callModule(rangeplot,"beaver1", beaver1, cols)
+    callModule(rangeplot,"beaver1", beaver1, cols,
+               label = "Choose range beaver1")
     callModule(rangeplot,"beaver2", beaver2, cols)
     
 }
