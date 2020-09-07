@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Shiny"
 author: "Joris Meys"
-date: "05/09/2019"
+date: "07/09/2020"
 runtime: shiny
 output: 
   ioslides_presentation:
@@ -14,36 +14,43 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # A first encounter
 
-## This workshop {.columns-2}
-
-**Me:**
+## Me
 
  - Statistician at Bio-engineering
  - R programmer
  - maintains statapps Shiny server
- - R instructor for 9 years now
+ - R instructor since 2010
  
-**This course:**
+ 
+## This course
 
  - No printed slides : info on the web
  - No mandatory exercises : let's do sth useful
- - all materials available on github
+ - all materials available on github 
  - Your input makes this course 
+ 
+**Online:**
+
+ - classroom : https://meet.google.com/lookup/bk6hckfrjs
+ - Questions in one-on-one rooms:
+   - tell me in chat which room
+   - room 1: https://meet.google.com/nrg-wrbg-wpx
+   - room 2: https://meet.google.com/psc-eqji-yzv
 
 ## Topics to discuss
 
- - Day 1: Introduction to the Shiny framework and ecosystem
+ - Day 1: Introduction to Shiny
  - Day 2: Apps, interactive documents, dashboards
  - Day 3: reactivity: the server backend
  - Day 4: working with modules
  - Day 5: debugging and profiling
  
-Other possibilities :
+**Other possibilities :**
 
  - interactive plots/tables with `plotly` and `DT`
  - deployment from github
  - Uploading/downloading 
- - error handling with `req()` and `validate()`
+ - error handling with `need()` and `validate()`
  - async programming 
  - ...
  
@@ -56,19 +63,6 @@ Other possibilities :
  - since then: more debugging, profiling, threading power, ...
  
  Shiny is a framework for **reactive programming**
- 
-
-## Only Shiny?
-
- - `shinythemes`: ready themes for a different layout
- - `shinydashboard` : modern dashboard (looks better than default)
- - `flexdashboard` : simple dashboard with RMarkdown
- - `shinyjs`: extension of functionality with JavaScript-like operations
- - `htmlwidgets` : wrap existing widgets in RMarkdown, Shiny, ...
- - `shinyjqui` : interaction/animation effects like dragging, resizing, ...
- - `shinycssloaders`: add a loader animation/spinner
- - ...
- 
 
 ## The problem to solve
 
@@ -305,8 +299,21 @@ Linkage :
  - Stand alone app : http://shiny.rstudio.com/articles/build.html
  - Tutorials : http://shiny.rstudio.com/tutorial/
  - Basic reactivity: http://shiny.rstudio.com/articles/understanding-reactivity.html
- - Reference : http://shiny.rstudio.com/reference/shiny/1.3.2/
+ - Reference : https://shiny.rstudio.com/reference/shiny/
  - widget gallery : http://shiny.rstudio.com/gallery/widget-gallery.html
+ - Book on Shiny : https://mastering-shiny.org/
+ 
+## Only Shiny?
+
+ - `shinythemes`: ready themes for a different layout
+ - `shinydashboard` : modern dashboard (looks better than default)
+ - `flexdashboard` : simple dashboard with RMarkdown
+ - `shinyjs`: extension of functionality with JavaScript-like operations
+ - `htmlwidgets` : wrap existing widgets in RMarkdown, Shiny, ...
+ - `shinyjqui` : interaction/animation effects like dragging, resizing, ...
+ - `shinycssloaders`: add a loader animation/spinner
+ - ...
+ 
 
 ## Extra exercises : Linear regression
 
