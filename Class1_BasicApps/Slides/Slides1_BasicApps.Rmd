@@ -334,3 +334,21 @@ It should:
  - generate p samples of n observations from a distribution as selected
  - calculate the mean for all p samples
  - show a histogram of those means
+
+## Extra exercises : age distribution of COVID.
+
+Use `COVID_20200907.csv` to create a shiny app with inputs :
+
+ - the region (Flanders, Brussels or Wallonia)
+ - the gender (All, Female or Male)
+ - a date range (using `sliderInput`)
+ 
+It should do the following :
+
+ - select the data from the dataset
+ - create a plot with the counts for each day per age group in function of time.
+ 
+Tips: 
+
+ - use `geom_col` for stacked columns
+ - use `scale_x_date` for the X axis
