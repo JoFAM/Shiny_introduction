@@ -31,15 +31,14 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-    
-    pdata <- reactive({
-        data.frame(
-        x = mtcars[[input$num_var]],
-        grp = as.character(mtcars[[input$color_var]])
-        )
-    })
 
     output$box_plot <- renderPlot({
+        
+        pdata <- data.frame(
+            x = mtcars[[input$num_var]],
+            grp = as.character(mtcars[[input$color_var]])
+        )
+        
         ggplot(pdata(), 
                aes(y = x, x = grp, fill = grp)) +
             geom_boxplot() +
