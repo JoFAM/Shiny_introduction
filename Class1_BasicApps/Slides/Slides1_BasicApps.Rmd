@@ -42,7 +42,7 @@ knitr::opts_chunk$set(echo = FALSE)
  - Day 1: Introduction to Shiny
  - Day 2: Apps, interactive documents, dashboards
  - Day 3: reactivity: the server backend
- - Day 4: working with modules
+ - Day 4: Deployment of apps
  - Day 5: debugging and profiling
  
 **Other possibilities :**
@@ -302,6 +302,7 @@ Linkage :
  - Reference : https://shiny.rstudio.com/reference/shiny/
  - widget gallery : http://shiny.rstudio.com/gallery/widget-gallery.html
  - Book on Shiny : https://mastering-shiny.org/
+ - Cheat sheet : https://shiny.rstudio.com/articles/cheatsheet.html
  
 ## Only Shiny?
 
@@ -326,7 +327,7 @@ Create a shiny app that takes the following inputs :
 
  - number n of observations in a sample (5 to 50)
  - number p of samples (10 to 1000)
- - A selector for a distribution
+ - A selector for a distribution (normal, exponential, poisson)
  
 It should:
 
