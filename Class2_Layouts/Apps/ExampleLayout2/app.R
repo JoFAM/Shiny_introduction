@@ -33,7 +33,7 @@ ui <- fluidPage(
                selectInput("var", "Pick a variable",
                            choices = thevars)
                ), #END column 4
-        column(4, offset = 4,
+        column(4, offset = 4, align = "right",
                tags$em("Column width 4 with offset"),
                sliderInput("num", "number of bins",
                            min = 5, max = 15, value = 10))
@@ -62,7 +62,7 @@ server <- function(input, output) {
     })
     
     output$summaries <- renderTable({   # Transforms a data frame or tibble to table
-        broom::tidy(summary(thedata()))
+        as.data.frame(t(as.matrix((summary(thedata())))))
     })
 }
 

@@ -7,27 +7,34 @@ library(ggplot2)
 thevars <- names(iris)[1:4]
 
 # Define UI for application that draws a histogram
+
+controlcolumn <- column(3,                           
+                        h3("Column width 3"), #Header
+                        selectInput("var", "Pick a variable",
+                                    choices = thevars),
+                        sliderInput("num", "number of bins",
+                                    min = 5, max = 15, value = 10)
+)
+
+outputcolumn <- column(9,
+                       h3("Column width 9"),
+                       p("This example shows how you define the column width. It also
+                  includes a number of examples of html tag functions, so you
+                  get an idea of how things can be added."),
+                       fluidRow(column(6,plotOutput("histplot")),
+                                column(6,plotOutput("histplot2"))
+                       ),
+                       tableOutput("summaries"),
+                       p("Notice how even with a small width for the plot, the 
+                  elements still get placed under each other. This is due to the
+                  specific class of these widgets.")
+) # END column 9 
+
 ui <- fluidPage(
     titlePanel("Layout examples in a fluidPage"),
     fluidRow(
-        column(3,                           
-               h3("Column width 3"), #Header
-               selectInput("var", "Pick a variable",
-                           choices = thevars),
-               sliderInput("num", "number of bins",
-                           min = 5, max = 15, value = 10)
-        ), # END column 3
-        column(9,
-               h3("Column width 9"),
-               p("This example shows how you define the column width. It also
-                  includes a number of examples of html tag functions, so you
-                  get an idea of how things can be added."),
-               plotOutput("histplot", width = "50%"),
-               tableOutput("summaries"),
-               p("Notice how even with a small width for the plot, the 
-                  elements still get placed under each other. This is due to the
-                  specific class of these widgets.")
-        ) # END column 9
+        controlcolumn, # END column 3
+        outputcolumn
     ) # END fluidRow
 )
 

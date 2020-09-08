@@ -97,9 +97,9 @@ To use relative heights :
 
 ## Exercises
 
-Revisit the covid app and add an extra tab with the following side to side:
+Revisit the covid app and add:
 
- - A heatmap, controlled by the same inputs (region, gender and date range). 
+ - A heatmap, controlled by the same inputs (region, gender and date range), next to the plot that's there. 
  - An extra tab with a summary table containing the average infections over the selected period for all regions. It's only controlled by gender and date range.
  
 ## Extra sources
