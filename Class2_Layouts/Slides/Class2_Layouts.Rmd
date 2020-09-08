@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Shiny"
 author: "Joris Meys"
-date: "05/09/2019"
+date: "08/09/2020"
 runtime: shiny
 output: 
   ioslides_presentation:
@@ -14,7 +14,105 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Layout styles
 
-## Recap on app structure
+## Layout principles of apps
+
+Let's recap:
+
+ - **Page**: the main container of an app, contains panels.
+     * `fluidPage`
+     * `shinydashboard`
+ - **Panel** : a container containing other panels or widgets.
+     * `sidebarPanel`
+     * `mainPanel`
+ - **Widget**: a functional unit (input, output)
+     * `sliderInput`
+     * `plotOutput`
+
+This general principle goes for all different layout designs and possibilities.
+
+## Fluid layout using `fluidPage()`
+
+Fluid design is the standard in shiny. This means :
+
+ - row based: a row is created using `fluidRow()`
+     * They don't have a fixed height!
+     * Elements are placed on same line **if possible** (eg columns)!
+     * Elements like input/output widgets are often forced to stack vertically.
+ - Rows can be horizontally divided in columns using `column()`
+     * there's 12 column units in a row
+     * width of column in column units (1 - 12)
+
+These are **panels** : can be nested in eachother
+
+## Add HTML tags for formatting etc
+
+`Shiny` contains a set of HTML functions :
+
+ - `p()`: a paragraph with text
+ - `br()`: a break
+ - `a()`: a hyperlink
+ - `h1()` to `h6()`: headers at different levels.
+ 
+110 tag functions are contained in `tags` (See `ExampleLayout2`)
+ 
+You can add attributes, eg:
+
+```{r, echo=TRUE}
+a("HTML tag reference!", href = "https://www.w3schools.com/TAGs/")
+```
+
+## Exercises
+
+ - Replicate the design in the image for the app LinearRegression
+ - Replicate the design in the image for the app BoxPlots
+ 
+
+## Add navigation to the app
+
+You can separate widgets in tabs using `tabPanel()`
+
+Tabs have to be contained in :
+
+ - `tabSetPanel()` : gives clickable tabs
+ - `navlistPanel()` : gives navigation menu on the side
+ - `navbarPage()` : a **page** with navigation bar for tabs
+ 
+Keep in mind: `tabPanel()` is a container like `mainPanel()` etc.
+
+## Control widget size :
+
+Width and height can be set in CSS units for every widget.
+
+ - is a character value with a number plus suffix.
+ - suffices : `%`, `px`, `cm`, `mm`, `pt`, `in`, ...
+ - relative width works relative to the column (eg `100%` = full column width)
+ - relative height does NOT work! (height is determined by highest element.)
+ 
+To use relative heights : 
+ - use a `fillPage`
+ - use a `fillRow` or `fillCol` with fixed height
+ 
+**Widgets are contained in a specific class that forces them to stack vertically by default.**
+**To place them next to eachother, either use columns or `splitLayout()`.**
+
+## Exercises
+
+Revisit the covid app and add an extra tab with the following side to side:
+
+ - A heatmap, controlled by the same inputs (region, gender and date range). 
+ - An extra tab with a summary table containing the average infections over the selected period for all regions. It's only controlled by gender and date range.
+ 
+## Extra sources
+
+ - Tab sets and fluid system : http://shiny.rstudio.com/articles/layout-guide.html
+ - shiny HTML tags : http://shiny.rstudio.com/articles/html-tags.html
+ - shiny HTML glossary : http://shiny.rstudio.com/articles/tag-glossary.html
+ - Tutorial video : https://vimeo.com/rstudioinc/review/131218530/212d8a5a7a/#t=1h52m52s
+ 
+
+# Running apps
+
+## App structures
 
 We've seen different kinds of apps :
 
@@ -64,89 +162,6 @@ Allows us to create a function to call the app!
 
 *See example `HistWithDens.R`*
 
-## Layout principles of apps
+## Exercise
 
-Let's recap:
-
- - **Page**: the main container of an app, contains panels.
-     * `fluidPage`
-     * `shinydashboard`
- - **Panel** : a container containing other panels or widgets.
-     * `sidebarPanel`
-     * `mainPanel`
- - **Widget**: a functional unit (input, output)
-     * `sliderInput`
-     * `plotOutput`
-
-This general principle goes for all different layout designs and possibilities.
-
-## Fluid layout using `fluidPage()`
-
-Fluid design is the standard in shiny. This means :
-
- - row based: a row is created using `fluidRow()`
-     * They don't have a fixed height!
-     * Elements are placed on same line **if possible** (eg columns)!
-     * Elements like input/output widgets are often forced to stack vertically.
- - Rows can be horizontally divided in columns using `column()`
-     * there's 12 column units in a row
-     * width of column in column units (1 - 12)
-
-These are **panels** : can be nested in eachother
-
-## Add HTML tags for formatting etc
-
-`Shiny` contains a set of HTML functions :
-
- - `p()`: a paragraph with text
- - `br()`: a break
- - `a()`: a hyperlink
- - `h1()` to `h6()`: headers at different levels.
- 
-110 tag functions are contained in `tags` (See `ExampleLayout2`)
- 
-You can add attributes, eg:
-
-```{r, echo=TRUE}
-a("HTML tag reference!", href = "https://www.w3schools.com/TAGs/")
-```
-
-
-
-## Add navigation to the app
-
-You can separate widgets in tabs using `tabPanel()`
-
-Tabs have to be contained in :
-
- - `tabSetPanel()` : gives clickable tabs
- - `navlistPanel()` : gives navigation menu on the side
- - `navbarPage()` : a **page** with navigation bar for tabs
- 
-Keep in mind: `tabPanel()` is a container like `mainPanel()` etc.
-
-
-
-## Control widget size :
-
-Width and height can be set in CSS units for every widget.
-
- - is a character value with a number plus suffix.
- - suffices : `%`, `px`, `cm`, `mm`, `pt`, `in`, ...
- - relative width works relative to the column (eg `100%` = full column width)
- - relative height does NOT work! (height is determined by highest element.)
- 
-To use relative heights : 
- - use a `fillPage`
- - use a `fillRow` or `fillCol` with fixed height
- 
-**Widgets are contained in a specific class that forces them to stack vertically by default.**
-**To place them next to eachother, either use columns or `splitLayout()`.**
- 
-## Extra sources
-
- - Tab sets and fluid system : http://shiny.rstudio.com/articles/layout-guide.html
- - shiny HTML tags : http://shiny.rstudio.com/articles/html-tags.html
- - shiny HTML glossary : http://shiny.rstudio.com/articles/tag-glossary.html
- - Tutorial video : https://vimeo.com/rstudioinc/review/131218530/212d8a5a7a/#t=1h52m52s
- 
+Split the covid app in a ui.R and server.R, and try to run it from the command line.

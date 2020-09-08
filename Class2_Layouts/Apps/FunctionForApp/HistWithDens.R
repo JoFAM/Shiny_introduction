@@ -3,7 +3,7 @@ library(shiny)
 
 # The function creates the app
 
-ShowDensity <- function(){
+ShowDensity <- function(color = "blue"){
   
   # First create the UI
   UI <- fluidPage(
@@ -23,13 +23,17 @@ ShowDensity <- function(){
     output$histplot <- renderPlot({
       samp <- rnorm(input$obs)
       dens <- density(samp)
-      hist(samp, col = "blue", freq = FALSE)
+      hist(samp, col = color, freq = FALSE)
       lines(dens)
     })
+    
+    # Make sure that the app ends when the window is closed
+    onStop(stopApp)
   }
   
   # Now create the app
   theApp <- shinyApp(UI, servfun)
+  # Run the app in a web browser
   runApp(theApp, launch.browser = TRUE)
 }
 

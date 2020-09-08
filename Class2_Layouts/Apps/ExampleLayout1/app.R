@@ -3,7 +3,7 @@
 
 library(shiny)
 library(ggplot2)
-library(broom)  # For cleaner output in the form of tibbles when using summary()
+
 thevars <- names(iris)[1:4]
 
 # Define UI for application that draws a histogram
@@ -52,8 +52,9 @@ server <- function(input, output) {
         hist(iris$Sepal.Length)
     })
     
-    output$summaries <- renderTable({   # Transforms a data frame or tibble to table
-        broom::tidy(summary(thedata()))
+    # Transforms a data frame or tibble to table
+    output$summaries <- renderTable({   
+        as.data.frame(t(as.matrix(summary(thedata()))))
     })
 }
 
