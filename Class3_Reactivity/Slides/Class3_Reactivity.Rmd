@@ -233,6 +233,26 @@ Add a download button that returns a CSV file with :
  
 Add a download button that lets the user download the plot of the model.
 
+## ConditionalPanel
+
+Use conditions at the UI side : take a look at `conditionalPanel`.
+
+```{r echo=TRUE, eval=FALSE}
+conditionalPanel("output.thedata",
+                 actionButton("Go","Run Model"))
+```
+
+ - You access the output list using `"output.TheElement"`
+ - avoids complex constructs with `renderUI()`
+
+```{r echo=TRUE, eval=FALSE}
+conditionalPanel("input.choice == 'B'",
+                 selectInput("choice","Make a choice", c("A","C")))
+```
+
+ - uses javascript expressions
+ - use `"input.TheElement"` to adapt panels based on chosen input values.
+ 
 ## Types of reactivity
 
 ```{r, out.width='70%', fig.align='center'}
@@ -334,7 +354,6 @@ observeEvent({input$Go},{
 })
 ```
 
-For the UI side: take a look at `conditionalPanel`.
 
 ## Exercise
 

@@ -1,6 +1,7 @@
 # The user interface of the exercise
 #-----------------------------------
 library(shiny)
+library(ggplot2)
 # Create the tabs.
 #-------------------
 
@@ -17,7 +18,20 @@ histtab <- tabPanel(
 
 modeltab <- tabPanel(
   "Model",
-  verbatimTextOutput("themodel")
+  fluidRow(
+    column(6,verbatimTextOutput("thesummary")),
+    column(6,plotOutput("modelplot"))
+  ),
+  fluidRow(
+    column(6, conditionalPanel("output.thesummary",
+                               downloadButton("downloadpred",
+                             "Download predictions"))),
+    column(6, conditionalPanel("output.modelplot",
+                               downloadButton("downloadplot",
+                             "Download plot")))
+    
+  )
+  
 )
 
 #----------------
