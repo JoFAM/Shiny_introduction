@@ -59,10 +59,11 @@ server <- function(input, output) {
         colid <- beaver1$activ + 1
         cols <- c(input$colinactive, input$colactive)
         
+   
+        
         ggplot(beaver1, aes(x=tindex, y=temp)) + 
             geom_line(col = cols[colid], lwd = 2) +
             coord_cartesian(xlim = input$range) #Avoids warnings, contrary to lims() etc.
-
 
     })
 }
