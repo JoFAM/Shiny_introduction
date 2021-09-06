@@ -1,7 +1,6 @@
 #
 # This is a demo application to illustrate the basic parts
 #
-
 library(shiny)
 library(ggplot2)
 
@@ -39,7 +38,7 @@ server <- function(input, output) {
             grp = as.character(mtcars[[input$color_var]])
         )
         
-        ggplot(pdata(), 
+        ggplot(pdata, 
                aes(y = x, x = grp, fill = grp)) +
             geom_boxplot() +
             labs(y = input$num_var, x = input$color_var) +
@@ -48,4 +47,4 @@ server <- function(input, output) {
 }
 
 # Run the application 
-theapp <- shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = server)
