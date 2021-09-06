@@ -28,14 +28,6 @@ knitr::opts_chunk$set(echo = FALSE)
  - No mandatory exercises : let's do sth useful
  - all materials available on github 
  - Your input makes this course 
- 
-**Online:**
-
- - classroom : https://meet.google.com/lookup/bk6hckfrjs
- - Questions in one-on-one rooms:
-   - tell me in chat which room
-   - room 1: https://meet.google.com/nrg-wrbg-wpx
-   - room 2: https://meet.google.com/psc-eqji-yzv
 
 ## Topics to discuss
 
@@ -241,6 +233,8 @@ In the demo example, we create a dataset within the plot code.
  selectInput("b1","distribution X", choices = c("norm","exp"))
  selectInput("b2","distribution Y", choices = c("norm","exp"))
 ```
+
+<p class="forceBreak"></p>
 
 ```{r}
  x <- reactive({
