@@ -1,15 +1,14 @@
 ---
 title: "Introduction to Shiny"
 author: "Joris Meys"
-date: "08/09/2020"
-runtime: shiny
+date: "06/09/2021"
 output: 
   ioslides_presentation:
     widescreen: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, eval=FALSE)
 ```
 
 # Layout styles
