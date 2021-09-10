@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Shiny"
 author: "Joris Meys"
-date: "11/09/2020"
+date: "10/09/2021"
 runtime: shiny
 output: 
   ioslides_presentation:
@@ -114,11 +114,11 @@ clickUI("tag", ...)
 
 ### server side
 
- - use `callModule` to call the function
+ - use `moduleServer` to create a server function
  - return value is a reactive expression: catch it if needed
  
 ```{r, eval=FALSE, echo=TRUE}
-dice1 <- callModule(clickServer, "tag")
+dice1 <- clickServer("tag")
 ```
 
 **Remember to use `dice1` as a reactive, i.e. `dice1()` to access the value**

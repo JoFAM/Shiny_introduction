@@ -20,8 +20,8 @@ ui <- fluidPage(
 
 server <- function(input, output){
     
-    dice1 <- callModule(clickServer, "diceroll1")
-    dice2 <- callModule(clickServer, "diceroll2")
+    dice1 <- clickServer("diceroll1")
+    dice2 <- clickServer("diceroll2")
     
     output$winner <- renderText({
         dice1 <- dice1()

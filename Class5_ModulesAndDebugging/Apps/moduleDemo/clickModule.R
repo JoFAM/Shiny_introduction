@@ -12,12 +12,21 @@ clickUI <- function(id, label = "Click me!"){
   )
 }
 
-clickServer <- function(input, output, session){
-  value <- eventReactive(input$button,{
-    sample(1:6, 1)
-  })
-  output$res <- renderText({
-    paste("We rolled the dice and got:", value())
-  })
-  return(value)
-}
+
+
+clickServer <- function(id){
+  moduleServer(
+    id,
+    function(input, output, session){
+      value <- eventReactive(input$button,{
+        sample(1:6, 1)
+      })
+      output$res <- renderText({
+        paste("We rolled the dice and got:", value())
+      })
+      return(value)
+    } #END function
+  ) # END moduleServer
+} # END clickServer
+
+
