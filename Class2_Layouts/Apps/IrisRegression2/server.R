@@ -10,7 +10,7 @@
 library(shiny)
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+function(input, output) {
 
     output$regPlot <- renderPlot({
         
@@ -28,4 +28,4 @@ shinyServer(function(input, output) {
         reg <- lm(theformula, data = iris)
         summary(reg)
     })
-})
+}

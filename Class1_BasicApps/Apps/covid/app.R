@@ -3,6 +3,7 @@ library(shiny)
 library(ggplot2)
 
 # .. means: go 1 directory up
+# covid <- read.csv("Data/Covid_20200907.csv")
 covid <- read.csv("../../Data/Covid_20200907.csv")
 regions <- unique(covid$REGION)
 

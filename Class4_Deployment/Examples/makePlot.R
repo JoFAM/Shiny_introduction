@@ -3,6 +3,7 @@
 # This shows how a gadget can also take some input.
 
 library(miniUI)
+library(shiny)
 library(ggplot2)
 library(dplyr)
 
