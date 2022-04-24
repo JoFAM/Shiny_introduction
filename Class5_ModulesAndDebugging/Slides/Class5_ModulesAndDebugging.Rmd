@@ -20,6 +20,7 @@ Every code has problems, finding them is the trick.
 
 ### in normal R code:
 
+
  - use `print()` statements to see values
  - set breakpoints (either in the IDE or by using `browser()`)
 
