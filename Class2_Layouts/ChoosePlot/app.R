@@ -1,6 +1,7 @@
 #
 # Choose Plot
-
+library(dplyr)
+library(ggplot2)
 library(shiny)
 
 # Define UI for application that draws a histogram
@@ -33,7 +34,7 @@ server <- function(input, output) {
     histplot <- reactive({
         var <- sym(input$var)
         ggplot(iris, aes(y = !!var)) +
-            geom_histogram()
+            geom_histogram(bins = 10)
     })
     
     boxplot <- reactive({
