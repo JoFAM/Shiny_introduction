@@ -41,7 +41,6 @@ shinyServer(function(input, output) {
         out <- thedata()[[input$varx]]
         validate(need(is.numeric(out),
                       "Please choose a numeric variable"))
-        print(out)
         out
     })
     
@@ -58,14 +57,14 @@ shinyServer(function(input, output) {
         hist(xdata(), col = "blue")
     })
     output$tablex <- renderTable({
-        broom::tidy(summary(xdata()))
+        tibble::enframe(summary(xdata()))
     })
     
     output$histy <- renderPlot({
         hist(ydata(), col = "green")
     })
     output$tabley <- renderTable({
-        broom::tidy(summary(ydata()))
+        tibble::enframe(summary(ydata()))
     })
     
     # Create the models
