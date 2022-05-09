@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Shiny"
 author: "Joris Meys"
-date: "10/09/2020"
+date: "10/05/2022"
 runtime: shiny
 output: 
   ioslides_presentation:
@@ -13,38 +13,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(miniUI)
 ```
 
-# Sharing your applications
-
-## Different goals require different solutions.
-
-**Passing scripts**:
-
- - Helps R users
- - Users can change the code: flexible but unstable
- 
-**Integrating in RStudio with package**:
-
- - Helps R users
- - code is protected from unwanted changes
- - can be rolled out 
- 
-**Hosting on a web service**:
-
- - Also non-R users can use the app
- - Needs server deployment and admin
- - code is inaccessible/hidden
-
-## Web services to host
-
-Two main possibilities:
-
-|        | Shiny Server (open) | ShinyProxy    |
-| :----- | :----------------- | :----------   |
-| From   | RStudio            | OpenAnalytics |
-| App | Directory on server | Docker containers |
-| Setup        | less complex   | more complex      |
-| Users per app | All in same session | one session per user | 
-| scalability  | Buy Pro        | in theory infinitely scaleable |
+# Beyond the basics : extending R with Shiny
 
 ## Provide a GUI for complex functions
 
@@ -150,7 +119,42 @@ minTabstripPanel(
   )
 ```
 
-## Share online with Github
+
+
+# Beyond the basics: Sharing applications
+
+## Different goals require different solutions.
+
+**Passing scripts**:
+
+ - Helps R users
+ - Users can change the code: flexible but unstable
+ 
+**Integrating in RStudio with package**:
+
+ - Helps R users
+ - code is protected from unwanted changes
+ - can be rolled out 
+ 
+**Hosting on a web service**:
+
+ - Also non-R users can use the app
+ - Needs server deployment and admin
+ - code is inaccessible/hidden
+
+## Web services to host
+
+Two main possibilities:
+
+|        | Shiny Server (open) | ShinyProxy    |
+| :----- | :----------------- | :----------   |
+| From   | RStudio            | OpenAnalytics |
+| App | Directory on server | Docker containers |
+| Setup        | less complex   | more complex      |
+| Users per app | All in same session | one session per user | 
+| scalability  | Buy Pro        | in theory infinitely scaleable |
+
+## Share scripts online with Github
 
  - Using Github gists:
      * Easy and "anonymous" sharing.
