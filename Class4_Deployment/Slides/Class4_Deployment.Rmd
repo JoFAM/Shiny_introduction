@@ -11,7 +11,99 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(miniUI)
+library(shinyFeedback)
 ```
+
+# Beyond the basics : shiny user feedback
+
+## Feedback to the user
+
+```{r, echo = TRUE, eval = FALSE}
+shinyFeedback::useShinyFeedback()
+numericInput("n", "Give us an even number", value = 10)
+textOutput("choice")
+```
+
+```{r, echo = TRUE, eval = FALSE}
+ output$choice <- renderText({
+    even <- input$n %% 2 == 0
+    shinyFeedback::feedbackWarning("n", !even, "Please select an even number")
+    paste("You've chosen",input$n)
+  })
+```
+
+```{r}
+shinyFeedback::useShinyFeedback()
+div(
+  column(6,numericInput("n", "Give us an even number", value = 10))
+  , column(6, textOutput("choice"))
+  ,
+  style = "background:lightgrey"
+)
+
+```
+
+```{r}
+  output$choice <- renderText({
+    even <- input$n %% 2 == 0
+    shinyFeedback::feedbackWarning("n", !even, "Please select an even number")
+    paste("You've chosen",input$n)
+  })
+```
+
+## Feedback to the user
+
+Simple case :
+
+ - needs `useShinyFeedback()` at the UI side
+ - feedback generated at server side using `feedbackWarning()`, `feedbackError()` or `feedbackSucces()`
+ 
+ Each feedback function takes :
+ 
+  - `inputId`: the id of the input where the feedback should be sent to
+  - `text`: the text to be shown
+  - `color`: optional color 
+  - `icon`: optional icon to put over input
+  
+
+## More control over feedback
+
+You can have more control (multiple conditions) by:
+
+  - using `observeEvent`
+  - showing/hiding feedback manually
+  
+```{r, echo = TRUE, eval=FALSE}
+ observeEvent(input$n2,{
+    hideFeedback("n2") # NEEDED TO RESET FEEDBACK!
+    req(input$n2)
+    if(input$n2 < 0){
+      showFeedbackDanger("n2", "Negative number")
+    } else if(input$n2 %% 2 != 0){
+      showFeedbackWarning("n2", "Not an even number")
+    } else {
+      showFeedbackSuccess("n2", "Good choice")
+    }
+  })
+```
+
+## Exercise
+
+Take a look at the app `corsim`. You have two controls there, one for the number of observations and one for the correlation. The inputs can be as follows:
+
+  - number of observations has to be larger than 5 
+  - number of observations should not exceed 1000
+  - correlation shouldn't be exactly 1 or -1
+  
+Add the following :
+
+  - a danger warning when observations are smaller than 0 (number shouldn't be negative.)
+  - a warning when observations are not between the limits 5-1000
+  - a warning when correlations are exactly 1 or -1
+  
+Also make sure no error messages are generated.
+
+
 
 # Beyond the basics : extending R with Shiny
 
