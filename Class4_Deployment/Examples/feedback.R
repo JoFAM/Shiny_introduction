@@ -1,7 +1,6 @@
 library(shiny)
 library(shinyFeedback)
 
-
 ui <- fluidPage(
   useShinyFeedback(),
   numericInput("n2", "Give us a positive even number", value = 10),
@@ -26,6 +25,6 @@ server <- function(input, output){
   
 }
 
-shinyApp(ui, server)
+myApp <- shinyApp(ui, server)
 
 
