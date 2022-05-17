@@ -54,9 +54,8 @@ server <- function(input, output){
             )
         })
         
-        # Here I call the module (since shiny 1.5 it's moduleServer,
-        # but callModule still works if you want.) Note that I store
-        # the result inside my reactive value list dices!
+        # Here I call the module 
+        # Note that I store the result inside my reactive value list dices!
         for(i in diceid){
             dices[[i]] <- moduleServer(i,clickServer)
         }

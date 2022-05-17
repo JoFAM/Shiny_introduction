@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Shiny"
 author: "Joris Meys"
-date: "10/09/2021"
+date: "17/05/2022"
 runtime: shiny
 output: 
   ioslides_presentation:
@@ -136,6 +136,47 @@ Rendering a UI at the server side requires the namespace function:
  - this is contained in the `session` object
  - extract using `ns <- session$ns`
  - Don't forget to use `ns(...)` in the rendered UI!
+ 
+## Exercise
+
+Create a module for the beaver app that creates the ggplot and the slider.
+Adapt the beaver app so you have a tab with the plot and range slider for
+both beaver datasets. Use the module you created.
+
+# More questions
+
+## Position of notifications
+
+**Question**: Can I change the position of the notifications?
+
+**Answer**: ![](yesyoucan.jpg)
+
+(if you don't mind fumbling around with css...)
+
+https://github.com/rstudio/shiny/issues/2988
+
+## Position of notifications
+
+In case you don't want to put it in a custom CSS file: 
+
+```{r, eval = FALSE, echo = TRUE}
+tags$head(
+  tags$style("
+#shiny-notification-panel {
+  top: 0;
+  bottom: unset;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 450px;
+}
+             ")
+)
+```
+
+`style` tag in HTML header passes info to CSS.
 
 ## The end
 
@@ -143,13 +184,7 @@ Rendering a UI at the server side requires the namespace function:
 
 Ask me anything.
 
-### Exercise
-
-Create a module for the beaver app that creates the ggplot and the slider.
-Adapt the beaver app so you have a tab with the plot and range slider for
-both beaver datasets. Use the module you created.
-
-## Extra sources
+### Extra sources
 
  - Modules: http://shiny.rstudio.com/articles/modules.html
  - Modules2: http://shiny.rstudio.com/articles/communicate-bet-modules.html
