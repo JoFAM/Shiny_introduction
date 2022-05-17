@@ -103,7 +103,82 @@ Add the following :
   
 Also make sure no error messages are generated.
 
+## Using notifications
 
+Basic use: `showNotification("some text")` :
+
+ - shows the notification
+ - adds a close button
+ - disappears automatically (unless you turn it off)
+
+```{r, echo = TRUE, eval = FALSE}
+actionButton("notify", "Click for a notification")
+```
+
+ 
+```{r}
+actionButton("notify", "Click for a warning")
+```
+
+```{r, echo = TRUE, eval = FALSE}
+observeEvent(input$notify,{
+  showNotification("You get a notification")
+})
+```
+
+```{r}
+observeEvent(input$notify,{
+  showNotification("You get a notification")
+})
+```
+
+## Different types of notifications
+
+```{r}
+div(
+column(4,actionButton("message", "Click for a message")),
+column(4,actionButton("warn", "Click for a warning")),
+column(4,actionButton("err", "Click for an error"))
+)
+```
+
+```{r, echo = TRUE, eval = FALSE}
+div(
+column(4,actionButton("message", "Click for a message")),
+column(4,actionButton("warn", "Click for a warning")),
+column(4,actionButton("err", "Click for an error"))
+)
+```
+
+```{r}
+observeEvent(input$message,{
+  showNotification("You get a notification", type = "message")
+})
+observeEvent(input$warn,{
+  showNotification("You get a warning", type = "warning")
+})
+observeEvent(input$err,{
+  showNotification("You get an error", type = "error")
+})
+```
+
+```{r, echo = TRUE, eval = FALSE}
+observeEvent(input$message,{
+  showNotification("You get a notification", type = "message")
+})
+observeEvent(input$warn,{
+  showNotification("You get a warning", type = "warning")
+})
+observeEvent(input$err,{
+  showNotification("You get an error", type = "error")
+})
+```
+
+## Exercise 
+
+Take another look at the `corsim` app.
+
+Add a notification each time the distribution of one of both variables change.
 
 # Beyond the basics : extending R with Shiny
 
@@ -211,7 +286,13 @@ minTabstripPanel(
   )
 ```
 
+## Exercise
 
+Write a function that takes a dataset as input and does the following :
+
+  - it allows you to select one of the variables
+  - if you select a numeric variable, it outputs a summary table (check the function `summary()`)
+  - if you select a character or factor variable, it outputs a table (check the function `table()`)
 
 # Beyond the basics: Sharing applications
 
